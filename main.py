@@ -1,4 +1,6 @@
-if __name__ == "__main__":
-    from Core import controller
+from Core.controller import Controller
+from View.view_manager import ViewManager
 
-    controller.main()
+if __name__ == "__main__":
+    controller = Controller(ViewManager(), None)
+    controller.run()
