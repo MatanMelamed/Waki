@@ -1,6 +1,11 @@
-from Core.controller import Controller
-from View.view_manager import ViewManager
+import pkgutil
+
+from pkg_resources import resource_listdir
+
+
+from src.core.tkinter_runner import TkinterRunner
 
 if __name__ == "__main__":
-    controller = Controller(ViewManager(), None)
-    controller.run()
+    runner = TkinterRunner()
+    runner.run()
+
