@@ -20,6 +20,8 @@ class AwController(Controller):
         self.view.set_button.configure(command=self.set_button)
         self.view.clear_button.configure(command=self.clear_button)
 
+        self.view.update()
+
     def set_button(self):
         print(f'{self.__class__.__name__} :: set_button')
         self.snp_ctrl.run(caller_window=self.context.window, new_file_name=self.view.img_name)
@@ -28,11 +30,13 @@ class AwController(Controller):
 
     def clear_button(self):
         print(f'{self.__class__.__name__} :: clear_button')
+        self.model.clear()
 
         self.view.update_view(self.model.get_stats())
 
         self.notify_event(AwController.AwEvents.CLEAR_BUTTON)
 
     def update(self):
+        print(f'{self.__class__.__name__} :: update')
         self.model.process_image('awk_img1.jpg')
         self.view.update_view(self.model.get_stats())

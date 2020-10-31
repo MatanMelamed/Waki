@@ -19,6 +19,9 @@ class AwkImageProcessor(Observable, metaclass=Singleton):
         super().__init__([AwkImageProcessor.AwkImgProcEvents])
         self.current_stats = []
 
+    def clear(self):
+        self.current_stats.clear()
+
     def process_image(self, img_file_name):
         self.current_stats.clear()
 

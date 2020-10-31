@@ -15,9 +15,6 @@ class AwView(View):
     def __init__(self, context, img_name=AWK_IMAGE, **kw):
         super().__init__(context, **kw)
         # self.configure(bg='RED')
-        self.model = AwkImageProcessor()
-
-        # self.configure(bg='RED')
 
         self.img_name = img_name
         self.frame1 = Frame(self)
@@ -38,20 +35,18 @@ class AwView(View):
         self.image.grid(row=2, column=0, padx=10)
         self.val_list.grid(row=2, column=1, padx=10)
 
-        self._refresh_image()
-        self._refresh_values()
-
     def _refresh_image(self):
         pil_image = get_image(self.img_name).resize((151, 85))
         img = ImageTk.PhotoImage(pil_image)
         self.image.configure(image=img)
         self.image.img = img
 
-    def _refresh_values(self):
+    def _refresh_values(self, stats_list):
         self.val_list.delete(0, END)
-        stats = self.model.get_stats()
-        for i, stat in enumerate(stats):
+
+        for i, stat in enumerate(stats_list):
             self.val_list.insert(i + 1, f'{stat.name} {stat.value}')
 
     def update_view(self, stats_list):
-        self._refresh_values()
+        self._refresh_values(stats_list)
+        self._refresh_image()
