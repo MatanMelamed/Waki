@@ -1,7 +1,7 @@
-from tkinter import ttk
+import tkinter as tk
 
 
-class View(ttk.Frame):
+class View(tk.Frame):
 
     def __init__(self, context, **kw):
         super().__init__(context.master, **kw)
