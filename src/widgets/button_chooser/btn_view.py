@@ -2,9 +2,9 @@ from tkinter import ttk
 
 from PIL import ImageTk
 
+from core.view import View
 from definitions import OK_IMAGE
-from utils.tools import get_image
-from archive.tests.models.base_view import View
+from models.utils.tools import get_image
 
 
 class BtnView(View):

@@ -2,7 +2,7 @@ from enum import Enum
 
 from core.scontroller import SController
 from core.context import Context
-from utils.tools import takeBoundedScreenShot
+from models.utils.tools import takeBoundedScreenShot
 from widgets.snipping_tool.snp_model import SnipperModel
 from widgets.snipping_tool.snp_view import SnipperView
 

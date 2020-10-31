@@ -1,6 +1,6 @@
 from tkinter import *
 
-from core.base_view import View
+from core.view import View
 
 
 class SnipperView(View):

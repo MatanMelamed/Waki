@@ -1,4 +1,4 @@
-from core.base_controller import Controller
+from core.controller import Controller
 from models.aw_image_processor import *
 from widgets.awakening_chooser.awk_view import AwView
 from widgets.snipping_tool.snp_controller import SnippingController

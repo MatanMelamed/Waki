@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 from core.context import Context
-from src.core.m_window_ctrl import CoreMainWindowController
+from core.main_win_ctrl import CoreMainWindowController
 from widgets.awakening_chooser.awk_controller import AwController
 from widgets.button_chooser.btn_controller import BtnController
 

@@ -1,4 +1,4 @@
-from core.base_controller import Controller
+from core.controller import Controller
 from core.singleton import Singleton
 
 
