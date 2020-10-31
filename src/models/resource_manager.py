@@ -1,4 +1,4 @@
-from models.singleton import Singleton
+from core.singleton import Singleton
 from definitions import RES_DIR, OK_IMAGE, AWK_IMAGE
 
 

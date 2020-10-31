@@ -1,4 +1,4 @@
-from core.main_window import MainWindow
+from models.main_window import MainWindow
 
 
 

@@ -1,5 +1,5 @@
 from core.base_controller import Controller
-from models.singleton import Singleton
+from core.singleton import Singleton
 
 
 class SController(Controller, metaclass=Singleton):

@@ -1,4 +1,4 @@
-from models.observable import Observable
+from core.observable import Observable
 
 
 class Controller(Observable):

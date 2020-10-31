@@ -3,8 +3,8 @@ import pytesseract as tess
 from models.stats_manager import Stat
 from enum import Enum
 
-from models.observable import Observable
-from models.singleton import Singleton
+from core.observable import Observable
+from core.singleton import Singleton
 from utils.tools import get_image
 
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
