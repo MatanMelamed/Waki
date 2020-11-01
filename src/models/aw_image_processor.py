@@ -1,6 +1,6 @@
 import pytesseract as tess
 
-from models.stats_manager import Stat
+from models.stat import Stat
 from enum import Enum
 
 from core.observable import Observable
@@ -27,13 +27,16 @@ class AwkImageProcessor(Observable, metaclass=Singleton):
 
         img = get_image(img_file_name)
         text = tess.image_to_string(img)
+        print(text)
 
         lines = (s.strip() for s in text.splitlines())
         raw_stats = (line.split('+') for line in lines if '+' in line)
         str_stats = ((a[0].strip(), a[1].strip().replace('%', '')) for a in raw_stats if len(a) >= 2)
 
-        for stat in (Stat(a, b) for a, b in str_stats):
-            self.current_stats.append(stat)
+        for a, b in str_stats:
+            new_stat = Stat(a, b)
+            if new_stat is not None:
+                self.current_stats.append(new_stat)
 
         self.notify_event(AwkImageProcessor.AwkImgProcEvents.FINISHED_IMG_PROC)
 

@@ -1,5 +1,7 @@
 from core.controller import Controller
+from definitions import DEFAULT_AWK_IMAGE
 from models.aw_image_processor import *
+from models.style_manager import StyleManager
 from widgets.awakening_chooser.awk_view import AwView
 from widgets.snipping_tool.snp_controller import SnippingController
 
@@ -7,7 +9,6 @@ from widgets.snipping_tool.snp_controller import SnippingController
 class AwController(Controller):
     class AwEvents(Enum):
         SET_BUTTON = 0
-        CLEAR_BUTTON = 1
 
     def __init__(self, ctx):
         super().__init__(ctx, [AwController.AwEvents])
@@ -17,10 +18,10 @@ class AwController(Controller):
         self.snp_ctrl = SnippingController()
         self.snp_ctrl.add_observer(SnippingController.SnippingEvents.FINISHED_SNIPPING, self.update)
 
-        self.view.set_button.configure(command=self.set_button)
-        self.view.clear_button.configure(command=self.clear_button)
+        self.view.set_button.configure(command=self.set_button, style=StyleManager.unset_button)
 
-        self.view.update()
+        self.model.process_image(DEFAULT_AWK_IMAGE)
+        self.view.update_view(self.model.get_stats(), img_name=DEFAULT_AWK_IMAGE)
 
     def set_button(self):
         print(f'{self.__class__.__name__} :: set_button')
@@ -28,15 +29,9 @@ class AwController(Controller):
 
         self.notify_event(AwController.AwEvents.SET_BUTTON)
 
-    def clear_button(self):
-        print(f'{self.__class__.__name__} :: clear_button')
-        self.model.clear()
-
-        self.view.update_view(self.model.get_stats())
-
-        self.notify_event(AwController.AwEvents.CLEAR_BUTTON)
-
     def update(self):
-        print(f'{self.__class__.__name__} :: update')
-        self.model.process_image('awk_img1.jpg')
+        self.model.process_image(self.view.img_name)
         self.view.update_view(self.model.get_stats())
+
+    def set_state(self, state=True):
+        super().toggle_widget(self.view.set_button, state)

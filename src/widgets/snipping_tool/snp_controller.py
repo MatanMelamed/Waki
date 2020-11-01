@@ -1,5 +1,6 @@
 from enum import Enum
 
+from core.controller import Controller
 from core.scontroller import SController
 from core.context import Context
 from models.utils.tools import takeBoundedScreenShot
@@ -7,7 +8,7 @@ from widgets.snipping_tool.snp_model import SnipperModel
 from widgets.snipping_tool.snp_view import SnipperView
 
 
-class SnippingController(SController):
+class SnippingController(Controller):
     class SnippingEvents(Enum):
         STARTED_SNIPPING = 0
         UPDATING_SNIPPING = 1
