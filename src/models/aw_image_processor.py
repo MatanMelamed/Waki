@@ -16,7 +16,7 @@ class AwkImageProcessor(Observable, metaclass=Singleton):
         FINISHED_IMG_PROC = 1
 
     def __init__(self):
-        super().__init__([AwkImageProcessor.AwkImgProcEvents])
+        Observable.__init__(self, [AwkImageProcessor.AwkImgProcEvents])
         self.current_stats = []
 
     def clear(self):
@@ -27,7 +27,6 @@ class AwkImageProcessor(Observable, metaclass=Singleton):
 
         img = get_image(img_file_name)
         text = tess.image_to_string(img)
-        print(text)
 
         lines = (s.strip() for s in text.splitlines())
         raw_stats = (line.split('+') for line in lines if '+' in line)

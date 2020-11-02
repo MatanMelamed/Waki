@@ -21,14 +21,15 @@ class OkController(Controller):
         self.view.update_view(img_name=DEFAULT_OK_IMAGE)
 
     def set_button(self):
-        print(f'{self.__class__.__name__} :: set_button')
         self.snp_ctrl.run(caller_window=self.context.window, new_file_name=self.view.img_name)
 
         self.notify_event(OkController.OkEvents.SET_BUTTON)
 
     def update(self):
-        print(f'{self.__class__.__name__} :: update')
         self.view.update_view()
+
+    def get_rectangle(self):
+        return self.snp_ctrl.get_rectangle()
 
     def set_state(self, state=True):
         super().toggle_widget(self.view.set_button, state)

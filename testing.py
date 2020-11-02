@@ -1,18 +1,38 @@
+import time
 from tkinter import *
 from tkinter import ttk
 
-app = Tk()
-app.geometry('400x400+200+200')
+# app = Tk()
+# app.geometry('400x400+200+200')
+#
+# s = ttk.Style()
+# s.configure('My.TFrame', background='red')
+#
+# frame1 = ttk.Frame(master=app, style='My.TFrame',)
+#
+# frame1.config()
+# frame1.pack()
+#
+# label = ttk.Label(frame1, text='text')
+# label.grid(row=0, column=0, padx=10)
+#
+# app.mainloop()
+from models.pauseable_thread import PauseableThread
 
-s = ttk.Style()
-s.configure('My.TFrame', background='red')
 
-frame1 = ttk.Frame(master=app, style='My.TFrame',)
+class ConcreteThread(PauseableThread):
 
-frame1.config()
-frame1.pack()
+    def routine(self):
+        print('doing some work!')
+        time.sleep(1)
 
-label = ttk.Label(frame1, text='text')
-label.grid(row=0, column=0, padx=10)
 
-app.mainloop()
+t = ConcreteThread()
+t.start()
+time.sleep(2)
+t.pause()
+time.sleep(2)
+t.resume()
+time.sleep(4)
+print('finished')
+

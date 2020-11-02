@@ -14,8 +14,11 @@ class SnipperModel(Observable):
         self.start_x, self.start_y = x, y
         self.cur_x, self.cur_y = z, w
 
-    def get_coords(self):
+    def get_rectangle(self):
         return [self.start_x, self.start_y, self.cur_x, self.cur_y]
+
+    def get_coords(self):
+        return [self.start_x, self.start_y, self.start_x + self.cur_x, self.start_y + self.cur_y]
 
     def start_snipping(self, x, y):
         ''' this method should be called when the snipping start'''

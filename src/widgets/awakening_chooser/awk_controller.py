@@ -24,7 +24,6 @@ class AwController(Controller):
         self.view.update_view(self.model.get_stats(), img_name=DEFAULT_AWK_IMAGE)
 
     def set_button(self):
-        print(f'{self.__class__.__name__} :: set_button')
         self.snp_ctrl.run(caller_window=self.context.window, new_file_name=self.view.img_name)
 
         self.notify_event(AwController.AwEvents.SET_BUTTON)
@@ -32,6 +31,9 @@ class AwController(Controller):
     def update(self):
         self.model.process_image(self.view.img_name)
         self.view.update_view(self.model.get_stats())
+
+    def get_rectangle(self):
+        return self.snp_ctrl.get_rectangle()
 
     def set_state(self, state=True):
         super().toggle_widget(self.view.set_button, state)

@@ -32,7 +32,7 @@ class SnipperView(View):
         }
 
     def enable(self):
-        print('running snipping view')
+        print('_running snipping view')
         self.context.window.deiconify()
 
         self.sc = Canvas(self.picture_frame, cursor="cross", bg="grey11")

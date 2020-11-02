@@ -22,6 +22,26 @@ def takeBoundedScreenShot(x1, y1, x2, y2, file_name):
     im.save(RES_DIR + f'\\{file_name}')
 
 
+def mouse_click(x, y):
+    pyautogui.click(x, y)
+
+
+def is_stat_satisfy(stat, conditions):
+    for condition in conditions:
+        if condition.name == stat.name and condition.value <= stat.value:
+            return True
+    return False
+
+
+def are_stats_satisfy(stats, conditions):
+    for stat in stats:
+        if is_stat_satisfy(stat, conditions):
+            stats.remove(stat)
+        else:
+            break
+    return len(stats) == 0
+
+
 def is_int(str):
     try:
         return int(str)
