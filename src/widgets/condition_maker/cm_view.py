@@ -34,7 +34,7 @@ class CMView(View):
         ttk.Label(self, text='Conditions:').grid(row=3, column=0, columnspan=2, padx=10, pady=5, sticky='ws')
 
         # row 4
-        self.remove_btn = ttk.Button(self, text='Remove', command=self.context.controller.delete_condition)
+        self.remove_btn = ttk.Button(self, text='Remove', command=self.context.controller.remove_condition)
         self.remove_btn.grid(row=4, column=2, padx=25, pady=12, sticky='n')
 
         self.conditions = Listbox(self, width=26)
@@ -52,7 +52,7 @@ class CMView(View):
     def clear_error_value(self):
         self.error_label.grid_remove()
 
-    def get_condition_maker(self):
+    def get_input(self):
         return self.stat_chooser.get(), self.stat_value.get()
 
     def clear_condition_maker(self):
@@ -62,10 +62,17 @@ class CMView(View):
     def add_condition(self, condition):
         self.conditions.insert(END, condition)
 
-    def delete_condition(self):
-        result = self.conditions.get(ANCHOR)
-        self.conditions.delete(ANCHOR)
-        return result
+    def remove_condition(self, value=None):
+        print(f'cm view :: remove_condition {value}')
+        if value is None:
+            value = self.conditions.get(ANCHOR)
+            self.conditions.delete(ANCHOR)
+        else:
+            for i, item in enumerate(self.conditions.get(0, END)):
+                if item == value:
+                    self.conditions.delete(i)
+
+        return value
 
     def clear_all_conditions(self):
         self.conditions.delete(0, END)

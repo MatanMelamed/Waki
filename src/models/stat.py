@@ -32,13 +32,16 @@ class Stat:
 
     def __init__(self, name, value):
         self.name = name if name.lower() not in Stat.NAMES.keys() else Stat.NAMES[name.lower()]
-        self.value = value
+        self.value = int(value)
 
     def __str__(self):
         return f'{self.name} > {self.value}'
 
     def __repr__(self):
         return f'({self.name}, {self.value})'
+
+    def __hash__(self):
+        return self.__str__().__hash__()
 
     def __eq__(self, other):
         return self.name == other.name and self.value == other.value

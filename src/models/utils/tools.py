@@ -34,7 +34,7 @@ def is_stat_satisfy(stat, conditions):
 
 
 def are_stats_satisfy(stats, conditions):
-    for stat in stats:
+    for stat in stats.copy():
         if is_stat_satisfy(stat, conditions):
             stats.remove(stat)
         else:

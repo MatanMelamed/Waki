@@ -16,33 +16,55 @@ class CMController(Controller):
         super().__init__(context, [CMController.CMEvents])
 
         self.view = CMView(context=Context(context.window, self, context.master))
-        self._conditions = []
+        self._conditions = {}
 
     def get_conditions(self):
         return self._conditions
 
-    def delete_condition(self):
-        deleted_stat_str = self.view.delete_condition()
-        stat = Stat.convert_str_to_stat(deleted_stat_str)
-        if stat:
-            self._conditions.remove(stat)
-            self.notify_event(CMController.CMEvents.CON_REMOVED)
+    def remove_condition(self):
+        removed_stat = Stat.convert_str_to_stat(self.view.remove_condition())
+        del self._conditions[removed_stat.name]
 
-    def add_condition(self):
-        new_stat = Stat(*self.view.get_condition_maker())
+        self.notify_event(CMController.CMEvents.CON_REMOVED)
 
+    def _get_new_stat_from_input(self):
+        new_stat = Stat(*self.view.get_input())
+
+        # check new stat
         if new_stat is None:
             self.view.set_error_value()
         else:
             self.view.clear_error_value()
-            self._conditions.append(new_stat)
-            self.view.add_condition(new_stat.__str__())
-            self.notify_event(CMController.CMEvents.CON_ADDED)
 
+        return new_stat
+
+    def _update_stat(self, new_stat):
+        old_str = self._conditions[new_stat.name].__str__()
+        self.view.remove_condition(old_str)
+        self.view.add_condition(new_stat.__str__())
+        self._conditions[new_stat.name] = new_stat
+
+    def add_condition(self):
+        new_stat = self._get_new_stat_from_input()
+        if new_stat is None:
+            return
+
+        # check if new stat exists in conditions
+        if new_stat.name in self._conditions:
+            if new_stat.value > (self._conditions[new_stat.name]).value:
+                # update stat
+                self._update_stat(new_stat)
+        else:
+            # insert new stat
+            self.view.add_condition(new_stat.__str__())
+            self._conditions[new_stat.name] = new_stat
+
+        self.notify_event(CMController.CMEvents.CON_ADDED)
         self.view.clear_condition_maker()
 
     def clear_all_stat_conditions(self):
         self._conditions.clear()
+        self._idx_to_con.clear()
         self.view.clear_all_conditions()
         self.notify_event(CMController.CMEvents.CON_CLEARED)
 

@@ -23,6 +23,7 @@ class BotThread(PauseableThread, Observable):
         self.ok_coords = []
         self.conditions = []
         self.stats_image_processor = AwkImageProcessor()
+        self.pause()
 
     def configure(self, aw_coords, ok_coords, conditions):
         self.aw_coords = aw_coords

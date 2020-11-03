@@ -6,6 +6,7 @@ class PauseableThread(Thread, metaclass=ABCMeta):
     def __init__(self):
         super().__init__()
         self._running = Event()
+        self._running.clear()
 
     def is_running(self):
         return self._running.is_set()
@@ -20,7 +21,6 @@ class PauseableThread(Thread, metaclass=ABCMeta):
 
     def run(self):
         print('run')
-        self._running.set()
 
         while True:
             self._running.wait()
