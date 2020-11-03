@@ -19,7 +19,7 @@ class CMController(Controller):
         self._conditions = {}
 
     def get_conditions(self):
-        return self._conditions
+        return self._conditions.values()
 
     def remove_condition(self):
         removed_stat = Stat.convert_str_to_stat(self.view.remove_condition())

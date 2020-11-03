@@ -29,6 +29,7 @@ class AwController(Controller):
         self.notify_event(AwController.AwEvents.SET_BUTTON)
 
     def update(self):
+        print('awk :: update')
         self.model.process_image(self.view.img_name)
         self.view.update_view(self.model.get_stats())
 

@@ -11,13 +11,15 @@ from models.utils.tools import takeBoundedScreenShot, mouse_click, are_stats_sat
 class BotThread(PauseableThread, Observable):
     class BotEvents(Enum):
         BOT_STARTED = 0
-        BOT_LOOP_STATED = 1
-        BOT_STOPPED = 2
+        BOT_STOPPED = 1
+        BOT_LOOP_STATED = 2
+        BOT_LOOP_ENDED = 3
 
-    def __init__(self):
+    def __init__(self, window):
         PauseableThread.__init__(self)
         Observable.__init__(self, [BotThread.BotEvents])
 
+        self.window = window
         self.loop_count = 0
         self.aw_coords = []
         self.ok_coords = []
@@ -30,28 +32,37 @@ class BotThread(PauseableThread, Observable):
         self.ok_coords = [ok_coords[0] + ok_coords[2] / 2, ok_coords[1] + ok_coords[3] / 2]
         self.conditions = conditions
 
+    def save(self, stats):
+        with open(f'resources/test/{self.loop_count}_text', 'w') as of:
+            for i in stats:
+                of.write(i.__repr__())
+
     def routine(self):
-        print('bot starting routine')
+        print('bot :: starting routine')
         self.notify_event(BotThread.BotEvents.BOT_LOOP_STATED)
 
         # screenshot
-        print('bot screen shot')
+        print('bot :: screen shot')
         takeBoundedScreenShot(*self.aw_coords, AWK_IMAGE)
 
         # process data
-        print('process data')
+        print('bot :: process data')
         self.stats_image_processor.process_image(AWK_IMAGE)
+
         current_stats = self.stats_image_processor.get_stats()
-        print('result', current_stats)
+        self.save(current_stats)
+        print('bot :: result', current_stats)
 
         # check data
         if are_stats_satisfy(current_stats, self.conditions):
-            print(current_stats, 'satisfying ', self.conditions)
+            print('bot :: satisfying ', current_stats, self.conditions)
             # done
             return
 
         # click
-        print('clicking')
+        print('bot :: clicking')
+
         mouse_click(*self.ok_coords)
         self.loop_count += 1
+        self.notify_event(BotThread.BotEvents.BOT_LOOP_ENDED)
         time.sleep(2)

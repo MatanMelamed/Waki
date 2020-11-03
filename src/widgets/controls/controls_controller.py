@@ -31,19 +31,20 @@ class ControlsController(Controller):
         self.toggle_widget(self.view.start_button, False)
         self.toggle_widget(self.view.stop_button, False)
 
-        self.bot_thread = BotThread()
-        self.bot_thread.add_observer(BotThread.BotEvents.BOT_LOOP_STATED, self.update)
+        self.bot_thread = BotThread(self.context.window)
+        self.bot_thread.add_observer(BotThread.BotEvents.BOT_LOOP_ENDED, self.update)
         self.bot_thread.add_observer(BotThread.BotEvents.BOT_STOPPED, self.bot_finished)
         self.bot_thread.start()
 
         self.view.test_btn.configure(command=self.test)
 
     def test(self):
-        print(f'aw')
-        ok_coords = self.ok_ctrl.get_rectangle()
-        r = [ok_coords[0] + ok_coords[2] / 2, ok_coords[1] + ok_coords[3] / 2]
-        print('ok button ', ok_coords, '\nok coords', r)
-        pass
+        print('controls :: test')
+        self.bot_thread.configure(aw_coords=self.aw_ctrl.get_rectangle(),
+                                  ok_coords=self.ok_ctrl.get_rectangle(),
+                                  conditions=self.cm_ctrl.get_conditions())
+
+        self.bot_thread.routine()
 
     def start(self):
         print('start')
@@ -68,7 +69,7 @@ class ControlsController(Controller):
         self.toggle_widget(self.view.start_button, True)
         self.toggle_widget(self.view.stop_button, False)
 
-        self.bot_thread.stop()
+        self.bot_thread.pause()
 
         self.aw_ctrl.set_state(True)
         self.ok_ctrl.set_state(True)
@@ -84,7 +85,7 @@ class ControlsController(Controller):
             self.toggle_widget(self.view.start_button, False)
 
     def update(self):
-        print('updating control')
+        print('controls :: update')
         if self.bot_thread.is_running():
             self.view.set_run_counter(self.bot_thread.loop_count)
             self.aw_ctrl.update()
