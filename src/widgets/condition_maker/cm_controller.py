@@ -19,7 +19,7 @@ class CMController(Controller):
         self._conditions = {}
 
     def get_conditions(self):
-        return self._conditions.values()
+        return list(self._conditions.values())
 
     def remove_condition(self):
         removed_stat = Stat.convert_str_to_stat(self.view.remove_condition())
@@ -64,7 +64,6 @@ class CMController(Controller):
 
     def clear_all_stat_conditions(self):
         self._conditions.clear()
-        self._idx_to_con.clear()
         self.view.clear_all_conditions()
         self.notify_event(CMController.CMEvents.CON_CLEARED)
 

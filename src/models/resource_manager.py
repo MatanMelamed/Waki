@@ -1,22 +1,35 @@
+import io
+import os
+
+from PIL import Image
+
 from core.singleton import Singleton
-from definitions import RES_DIR, OK_IMAGE, AWK_IMAGE
+from definitions import RES_DIR, ROOT_DIR
 
 
 class ResourceManager(metaclass=Singleton):
-    _resources = {}
 
-    def get_resource(self, file_name):
-        if file_name not in self._resources:
-            with open(RES_DIR + f'\\{file_name}', 'rb') as input_file:
-                self._resources[file_name] = input_file.read()
-        return self._resources[file_name]
+    @staticmethod
+    def get_path(file_name):
+        if os.path.isfile(file_name):
+            return file_name
+        if os.path.isfile(ROOT_DIR + f'\\{file_name}'):
+            return ROOT_DIR + f'\\{file_name}'
+        else:  # elif os.path.isfile(RES_DIR + f'\\{file_name}'):
+            return RES_DIR + f'\\{file_name}'
 
-    def get_image(self, img_file_name):
-        if img_file_name in (AWK_IMAGE, OK_IMAGE):
-            with open(RES_DIR + f'\\{img_file_name}', 'rb') as input_file:
-                input_file.read()
-        return self.get_resource(img_file_name)
+    @staticmethod
+    def get_file(res_path):
+        with open(RES_DIR + f'\\{res_path}', 'rb') as input_file:
+            data = input_file.read()
+        return data
 
-    def save_resource(self, file_name, data):
-        if file_name not in self._resources:
-            self._resources[file_name] = data
+    @staticmethod
+    def get_resource(res_path):
+        with open(RES_DIR + f'\\{res_path}', 'rb') as input_file:
+            data = input_file.read()
+        return data
+
+    @staticmethod
+    def get_image(img):
+        return Image.open(io.BytesIO(ResourceManager.get_resource(img)))

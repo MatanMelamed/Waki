@@ -1,16 +1,11 @@
 import io
+import os
+
 import pyautogui
 
 from PIL import Image
 
-from definitions import RES_DIR
-
-
-def get_image(img):
-    with open(RES_DIR + '/' + img, 'rb') as input_file:
-        image_data = input_file.read()
-    # image_data = ResourceManager().get_resource(img)
-    return Image.open(io.BytesIO(image_data))
+from definitions import RES_DIR, ROOT_DIR
 
 
 def takeBoundedScreenShot(x1, y1, x2, y2, file_name):

@@ -5,7 +5,7 @@ from PIL import ImageTk
 
 from core.view import View
 from definitions import AWK_IMAGE
-from models.utils.tools import get_image
+from models.resource_manager import ResourceManager
 
 
 class AwView(View):
@@ -28,7 +28,9 @@ class AwView(View):
         self.val_list.grid(row=2, column=1, padx=10)
 
     def _refresh_image(self, image_name):
-        pil_image = get_image(image_name).resize((151, 85))
+        pil_image = ResourceManager.get_image(image_name).resize((151, 85))
+        # pil_image = ResourceManager.get_image(image_name)
+        # pil_image.thumbnail((151, 85))
         img = ImageTk.PhotoImage(pil_image)
         self.image.configure(image=img)
         self.image.img = img

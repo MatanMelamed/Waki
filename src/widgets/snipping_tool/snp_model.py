@@ -1,3 +1,5 @@
+import math
+
 from core.observable import Observable
 
 
@@ -9,6 +11,7 @@ class SnipperModel(Observable):
         self.start_y = 0
         self.cur_x = 0
         self.cur_y = 0
+        self.ratio = -1
 
     def _update_coords(self, x, y, z, w):
         self.start_x, self.start_y = x, y
@@ -27,11 +30,14 @@ class SnipperModel(Observable):
 
     def update_snipping(self, x, y):
         ''' this method should be called to update the mouse position'''
-        self.cur_x, self.cur_y = (x, y)
+        if self.ratio != -1:
+            length = math.sqrt(pow(self.start_x - x, 2) + pow(self.start_y - y, 2))
+            x, y = (self.start_x + int(length * 3.536), self.start_y + int(length))
+        self.cur_x, self.cur_y = x, y
 
     def finish_snipping(self, x, y):
         ''' this method should be called to end the snipping'''
-        self.cur_x, self.cur_y = x, y
+        self.update_snipping(x, y)
 
         if self.start_x <= self.cur_x and self.start_y <= self.cur_y:
             print("right down")

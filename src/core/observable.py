@@ -24,6 +24,6 @@ class Observable:
         if event_type in self._observers.keys():
             self._observers[event_type].remove(callback)
 
-    def notify_event(self, event_type):
+    def notify_event(self, event_type, *args):
         for callback in self._observers[event_type]:
-            callback()
+            callback(*args)

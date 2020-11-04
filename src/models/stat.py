@@ -4,8 +4,7 @@ from models.utils.tools import is_int
 class Stat:
     NAMES = {'dex': 'Dex', 'int': 'Int', 'str': 'Str', 'sta': 'Sta', 'critical chance': 'CC',
              'increased critical damage': 'ICD', 'speed': 'Speed', 'attack speed': 'A. Speed', 'def': 'Def',
-             'attack': 'Attack', 'max. hp': 'Max. HP', 'max. mp': 'Max. MP', 'max .fp': 'Max .FP',
-             'decreased casting time': 'DCT'}
+             'attack': 'Attack', 'decreased casting time': 'DCT'}
 
     @classmethod
     def _parse_args(cls, *args, **kwargs):

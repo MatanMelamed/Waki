@@ -1,11 +1,10 @@
-from tkinter import *
 from tkinter import ttk
 
 from PIL import ImageTk
 
 from core.view import View
 from definitions import OK_IMAGE
-from models.utils.tools import get_image
+from models.resource_manager import ResourceManager
 
 
 class OkView(View):
@@ -24,7 +23,7 @@ class OkView(View):
         self.image.pack(padx=10, pady=10)
 
     def _refresh_image(self, image_name):
-        pil_image = get_image(image_name).resize((130, 60))
+        pil_image = ResourceManager.get_image(image_name).resize((130, 60))
         img = ImageTk.PhotoImage(pil_image)
         self.image.configure(image=img)
         self.image.img = img
