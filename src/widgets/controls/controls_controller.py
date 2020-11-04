@@ -1,4 +1,5 @@
 from core.controller import Controller
+from models.aw_image_processor import AwkImageProcessor
 from models.threads.bot_thread import BotThread
 from models.threads.timer_thread import TimerThread
 from widgets.awakening_chooser.awk_controller import AwController
@@ -14,6 +15,7 @@ class ControlsController(Controller):
         self.aw_ctrl = aw_ctrl
         self.ok_ctrl = ok_ctrl
         self.cm_ctrl = cm_ctrl
+        self.awk_img_processor = AwkImageProcessor()
 
         self.is_aw_set = False or True
         self.is_ok_set = False or True
@@ -46,9 +48,12 @@ class ControlsController(Controller):
         print('controls :: test')
         self.bot_thread.configure(aw_coords=self.aw_ctrl.get_rectangle(),
                                   ok_coords=self.ok_ctrl.get_rectangle(),
-                                  conditions=self.cm_ctrl.get_conditions())
+                                  conditions=self.cm_ctrl.get_conditions(),
+                                  refresh_time=float(self.view.get_refresh_time()))
 
         self.bot_thread.routine()
+        self.update()
+        print(self.view.get_refresh_time())
 
     def start(self):
         print('controls :: start')
@@ -63,7 +68,8 @@ class ControlsController(Controller):
 
         self.bot_thread.configure(aw_coords=self.aw_ctrl.get_rectangle(),
                                   ok_coords=self.ok_ctrl.get_rectangle(),
-                                  conditions=self.cm_ctrl.get_conditions())
+                                  conditions=self.cm_ctrl.get_conditions(),
+                                  refresh_time=float(self.view.get_refresh_time()))
 
         self.bot_thread.resume()
         self.timer_thread.resume()
@@ -98,6 +104,9 @@ class ControlsController(Controller):
         print('controls :: update')
         self.view.set_step_counter(self.bot_thread.loop_count)
         self.aw_ctrl.update()
+        s = self.awk_img_processor.get_stats()
+        print(s)
+        self.cm_ctrl.check_max_stat(s)
 
     def bot_finished(self):
         print('controls :: bot finished')

@@ -42,7 +42,6 @@ class AwView(View):
             self.val_list.insert(i + 1, f'{stat.name} {stat.value}')
 
     def update_view(self, stats_list=None, img_name=None):
-        print(stats_list)
         if stats_list is not None:
             self._refresh_values(stats_list)
 

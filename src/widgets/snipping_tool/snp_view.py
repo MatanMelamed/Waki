@@ -32,7 +32,6 @@ class SnipperView(View):
         }
 
     def enable(self):
-        print('_running snipping view')
         self.context.window.deiconify()
 
         self.sc = Canvas(self.picture_frame, cursor="cross", bg="grey11")
@@ -49,12 +48,10 @@ class SnipperView(View):
         self.context.window.attributes("-topmost", True)
 
     def disable(self):
-        print("snipper exit")
         self.sc.destroy()
         self.context.window.withdraw()
 
     def create_rectangle(self, x, y):
-        print('create rectangle')
         self.rect = self.sc.create_rectangle(x, y, x + 1, y + 1, outline='red', width=3, fill="blue")
 
     def update_rectangle(self, start_x, start_y, end_x, end_y):

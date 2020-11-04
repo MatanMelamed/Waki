@@ -40,19 +40,15 @@ class SnipperModel(Observable):
         self.update_snipping(x, y)
 
         if self.start_x <= self.cur_x and self.start_y <= self.cur_y:
-            print("right down")
             self._update_coords(self.start_x, self.start_y, self.cur_x - self.start_x, self.cur_y - self.start_y)
 
         elif self.start_x >= self.cur_x and self.start_y <= self.cur_y:
-            print("left down")
             self._update_coords(self.cur_x, self.start_y, self.start_x - self.cur_x, self.cur_y - self.start_y)
 
         elif self.start_x <= self.cur_x and self.start_y >= self.cur_y:
-            print("right up")
             self._update_coords(self.start_x, self.start_y, self.cur_x - self.start_x, self.start_y - self.cur_y)
 
         elif self.start_x >= self.cur_x and self.start_y >= self.cur_y:
-            print("left up")
             self._update_coords(self.cur_x, self.cur_y, self.start_x - self.cur_x, self.start_y - self.cur_y)
 
     def recPosition(self):

@@ -47,7 +47,6 @@ class AwkImageProcessor(Observable, metaclass=Singleton):
 
         img = ResourceManager.get_image(img_file_name)
         text = tess.image_to_string(img)
-        print(text)
 
         lines = (s.strip().replace('.', '') for s in text.splitlines())
         raw_stats = (line.split('+') for line in lines if '+' in line)

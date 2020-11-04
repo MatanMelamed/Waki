@@ -17,6 +17,7 @@ class CMController(Controller):
 
         self.view = CMView(context=Context(context.window, self, context.master))
         self._conditions = {}
+        self._max_observed = {}
 
     def get_conditions(self):
         return list(self._conditions.values())
@@ -71,3 +72,14 @@ class CMController(Controller):
         super().toggle_widget(self.view.add_btn, state)
         super().toggle_widget(self.view.remove_btn, state)
         super().toggle_widget(self.view.clear_btn, state)
+
+    def check_max_stat(self, new_stats):
+        for stat in new_stats:
+
+            if stat.name in self._max_observed:
+                if stat.value > self._max_observed[stat.name].value:
+                    self._max_observed[stat.name] = stat
+                    self.view.add_max_observed(stat, is_update=True)
+            elif stat.name in self._conditions:
+                self._max_observed[stat.name] = stat
+                self.view.add_max_observed(stat, is_update=False)

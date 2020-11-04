@@ -25,12 +25,14 @@ class BotThread(PausableThread, Observable):
         self.ok_coords = []
         self.conditions = []
         self.stats_image_processor = AwkImageProcessor()
+        self.refresh_time = 1
         self.pause()
 
-    def configure(self, aw_coords, ok_coords, conditions):
+    def configure(self, aw_coords, ok_coords, conditions, refresh_time):
         self.aw_coords = aw_coords
         self.ok_coords = [ok_coords[0] + ok_coords[2] / 2, ok_coords[1] + ok_coords[3] / 2]
         self.conditions = conditions
+        self.refresh_time = refresh_time
 
     def save(self, stats):
         with open(f'resources/bank/{self.loop_count}_text', 'w') as of:
@@ -43,12 +45,12 @@ class BotThread(PausableThread, Observable):
 
         # screenshot
         print('bot :: screen shot')
-        # takeBoundedScreenShot(*self.aw_coords, AWK_IMAGE)
-        takeBoundedScreenShot(*self.aw_coords, f'bank/{self.loop_count}_awk.jpg')
+        takeBoundedScreenShot(*self.aw_coords, AWK_IMAGE)
+        # takeBoundedScreenShot(*self.aw_coords, f'bank/{self.loop_count}_awk.jpg')
 
         # process data
         print('bot :: process data')
-        self.stats_image_processor.process_image(f'bank/{self.loop_count}_awk.jpg')
+        self.stats_image_processor.process_image(AWK_IMAGE)
 
         current_stats = self.stats_image_processor.get_stats()
         print('bot :: result', current_stats)
@@ -74,4 +76,4 @@ class BotThread(PausableThread, Observable):
         mouse_click(*self.ok_coords)
         self.loop_count += 1
         self.notify_event(BotThread.BotEvents.BOT_LOOP_ENDED)
-        time.sleep(0.7)
+        time.sleep(self.refresh_time)

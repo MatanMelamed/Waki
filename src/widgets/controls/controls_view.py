@@ -11,10 +11,14 @@ class ControlsView(View):
         # self.configure(bg='red')
 
         self.start_button = ttk.Button(self, text='Stat')
-        self.start_button.grid(pady=10)
+        self.start_button.grid(pady=4)
 
         self.stop_button = ttk.Button(self, text='Stop')
-        self.stop_button.grid(pady=10)
+        self.stop_button.grid(pady=4)
+
+        self.ref_input = StringVar(self)
+        self.ref_time = ttk.Entry(self, textvariable=self.ref_input)
+        self.ref_time.grid(pady=4)
 
         size = 10
         pady = 5
@@ -38,6 +42,8 @@ class ControlsView(View):
         self.test_btn = ttk.Button(self, text='next')
         self.test_btn.grid()
 
+        self.set_refresh_time(0.4)
+
     def set_status_label(self, status):
         self.lbl_status.configure(text=status)
 
@@ -46,3 +52,10 @@ class ControlsView(View):
 
     def set_step_counter(self, steps):
         self.lbl_steps.configure(text=steps)
+
+    def get_refresh_time(self):
+        return self.ref_time.get()
+
+    def set_refresh_time(self, time):
+        self.ref_time.delete(0, END)
+        self.ref_time.insert(0, time)

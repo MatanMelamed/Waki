@@ -22,8 +22,8 @@ class Stat:
 
     def __new__(cls, *args, **kwargs):
         args = cls._parse_args(*args, **kwargs)
-        n = args[0].lower()
-        if (n not in Stat.NAMES.values() and n not in Stat.NAMES.keys()) \
+        n = args[0]
+        if (n not in Stat.NAMES.values() and n.lower() not in Stat.NAMES.keys()) \
                 or not is_int(args[1]):
             return None
 
